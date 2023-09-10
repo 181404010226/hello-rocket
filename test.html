@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        .center {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column; /* This line makes the elements stack vertically */
+        }
+        .button {
+            padding: 10px 20px;
+            font-size: 20px;
+        }
+    </style>
+    <script>
+        window.onload = function() {
+            // Create a WebSocket connection to the server
+            var socket = new WebSocket('ws://localhost:9001');
+
+            document.querySelector('.button').addEventListener('click', function() {
+                var userInput = document.querySelector('.user-input').value;
+                // Send the user input to the WebSocket server
+                socket.send(userInput);
+            });
+
+            // Listen for messages from the server
+            socket.onmessage = function(event) {
+                document.querySelector('.message').textContent = event.data;
+            };
+        }
+    </script>
+</head>
+<body>
+    <div class="center">
+        <p class="message"></p> <!-- This line is for displaying the server's response -->
+        <input type="text" class="user-input"> <!-- This line is for the user's input -->
+        <button class="button">Button</button>
+    </div>
+</body>
+</html>
